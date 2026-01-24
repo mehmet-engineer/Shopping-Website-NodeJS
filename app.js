@@ -4,7 +4,7 @@ const app = express();
 
 // routes
 const admin = require("./routes/admin.js");
-const user = require("./routes/user.js");
+const shop = require("./routes/shop.js");
 
 // server params
 let port = 3000;
@@ -15,7 +15,7 @@ let host = "localhost";
 app.set("view engine", "pug");
 app.set("views", "./views");
 
-// App Middleware & Routes //////////////////////////////////////////////
+// App Middlewares & Routes //////////////////////////////////////////////
 
 // body parsing middleware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -25,12 +25,7 @@ app.use(express.static(__dirname + "/public"));
 
 // use routes
 app.use(admin.routes);
-app.use(user.routes);
-
-// 404 status
-app.use((req, res, next) => {
-    res.status(404).render("404", { title: "Error 404. Page Not Found." });
-});
+app.use(shop.routes);
 
 // Serving //////////////////////////////////////////////////////////////
 

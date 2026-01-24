@@ -1,30 +1,24 @@
 const express = require("express");
 const router = express.Router();
 
-const db_script = require("./data.js");
+const adminController = require("../controllers/adminController.js");
 
-router.get("/admin/add-product", (req, res, next) => {
-    console.log("Add product page.");
-    res.render("add-product", {
-        title: "Add Product Page"
-    });
-});
+// prepare product list page
+router.get("/admin/products", adminController.getProducts);
 
-router.post("/admin/add-product", (req, res, next) => {
-    console.log("Form submitted.");
-    let body = req.body;
-    console.log("req.body:", body);
+// prepare add product page
+router.get("/admin/add-product", adminController.getAddProduct);
 
-    // saving product data in database
-    db_script.product_data.add_product(
-        body.name,
-        body.price,
-        body.image,
-        body.description
-    );
-    
-    // routing to home page
-    res.redirect("/");
-});
+// handle add product form submission
+router.post("/admin/add-product", adminController.postAddProduct);
+
+// prapere edit product page
+router.get("/admin/edit-product/:productId", adminController.getEditProduct);
+
+// handle edit product form submission
+router.post("/admin/edit-product", adminController.postEditProduct);
+
+// handle delete product form submission
+router.post("/admin/delete-product", adminController.postDeleteProduct);
 
 module.exports.routes = router;
